@@ -495,3 +495,4 @@ public class Program
     }
 }
 ```
+Note- In C#, an assembly is a compiled code library used for deployment, versioning, and security. An assembly can be a .dll or .exe file. When we say that a member is "accessible within the same assembly," it means that the member can be accessed from any class or method within the same compiled code library (assembly), but not from another assembly.
