@@ -496,3 +496,43 @@ public class Program
 }
 ```
 Note- In C#, an assembly is a compiled code library used for deployment, versioning, and security. An assembly can be a .dll or .exe file. When we say that a member is "accessible within the same assembly," it means that the member can be accessed from any class or method within the same compiled code library (assembly), but not from another assembly.
+
+**What is the use of base keyword in C#?**
+- The base keyword in C# is used to access members of the base class from within a derived class. It is commonly used to call base class constructors, methods, and properties.
+```
+public class Animal
+{
+    public string Name;
+
+    // Base class constructor
+    public Animal(string name)
+    {
+        Name = name;
+    }
+}
+
+public class Dog : Animal
+{
+    public string Breed;
+
+    // Derived class constructor
+    public Dog(string name, string breed) : base(name)  // Call to base class constructor
+    {
+        Breed = breed;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, Breed: {Breed}");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Dog dog = new Dog("Buddy", "Golden Retriever");
+        dog.DisplayInfo();  // Output: Name: Buddy, Breed: Golden Retriever
+    }
+}
+```
