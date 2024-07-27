@@ -536,3 +536,144 @@ public class Program
     }
 }
 ```
+## Polymorphism in C#
+Polymorphism is a fundamental concept in object-oriented programming that allows objects of different types to be treated as objects of a common super type. In C#, polymorphism is typically achieved through inheritance and interfaces, allowing methods to behave differently based on the object that invokes them.
+### Types of Polymorphism.
+1. **Compile-Time Polymorphism** - Compile-time polymorphism is achieved through method overloading and operator overloading. It is called static polymorphism because the method to be invoked is determined at compile time. Example-
+```
+public class Calculator
+{
+    // Method Overloading
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public double Add(double a, double b)
+    {
+        return a + b;
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Calculator calculator = new Calculator();
+        Console.WriteLine(calculator.Add(2, 3));       // Output: 5
+        Console.WriteLine(calculator.Add(2.5, 3.5));   // Output: 6.0
+    }
+}
+```
+2. **Run-Time Polymorphism** - Run-time polymorphism is achieved through method overriding and interfaces. It is called dynamic polymorphism because the method to be invoked is determined at run time. Example -
+```
+public class Animal
+{
+    public virtual void MakeSound()
+    {
+        Console.WriteLine("Animal makes a sound");
+    }
+}
+
+public class Dog : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine("Dog barks");
+    }
+}
+
+public class Cat : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine("Cat meows");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Animal myAnimal = new Animal();
+        Animal myDog = new Dog();
+        Animal myCat = new Cat();
+
+        myAnimal.MakeSound();  // Output: Animal makes a sound
+        myDog.MakeSound();     // Output: Dog barks
+        myCat.MakeSound();     // Output: Cat meows
+    }
+}
+```
+> **Compile-time** is the phase during which the source code is translated into executable code by a compiler. Syntax errors, type checking, and other compile-time errors are detected at this stage.
+> **Run-time** is the phase during which the executable code is run on the machine. Run-time errors like exceptions and logic errors are detected at this stage.
+
+#### Virtual Methods in C#
+In C#, virtual methods allow a method in a base class to be overridden in a derived class. This enables polymorphism, where the method to be executed is determined at run-time based on the actual object type. Virtual methods support run-time polymorphism, allowing derived class methods to be called through a base class reference. Useful for designing extensible and flexible code where derived classes can provide specific implementations of base class methods. *Refer the example of Method Overriding above for better understanding of the working.*
+
+### Abstract Classes and Methods in C#
+Abstract Classes and Abstract Methods in C# are used to define a template for other classes. They provide a way to enforce that certain methods are implemented by derived classes while allowing the base class to provide common functionality.
+- **Abstract Classes** - An abstract class is a class that cannot be instantiated on its own and is intended to be a base class for other classes. It can contain both abstract methods (methods without implementation) and concrete methods (methods with implementation).
+- **Abstract Methods** - An abstract method is a method that is declared without any implementation. Derived classes must provide an implementation for all abstract methods inherited from the abstract class.
+Consider an abstract class Shape and its derived classes Circle and Rectangle.
+```
+// Abstract Class with Abstract and Concrete Methods:
+public abstract class Shape
+{
+    // Abstract method (no implementation)
+    public abstract double GetArea();
+
+    // Concrete method
+    public void DisplayArea()
+    {
+        Console.WriteLine("The area of the shape is: " + GetArea());
+    }
+}
+// Derived Class Implementing Abstract Methods:
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+
+    public Circle(double radius)
+    {
+        Radius = radius;
+    }
+
+    // Implementation of the abstract method
+    public override double GetArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+
+    public Rectangle(double width, double height)
+    {
+        Width = width;
+        Height = height;
+    }
+
+    // Implementation of the abstract method
+    public override double GetArea()
+    {
+        return Width * Height;
+    }
+}
+// Using the Abstract Class and Derived Classes:
+public class Program
+{
+    public static void Main()
+    {
+        Shape myCircle = new Circle(5.0);
+        Shape myRectangle = new Rectangle(4.0, 6.0);
+
+        myCircle.DisplayArea();    // Output: The area of the shape is: 78.53981633974483
+        myRectangle.DisplayArea(); // Output: The area of the shape is: 24
+    }
+}
+```
+
