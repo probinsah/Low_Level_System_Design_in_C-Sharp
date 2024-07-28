@@ -615,6 +615,7 @@ In C#, virtual methods allow a method in a base class to be overridden in a deri
 Abstract Classes and Abstract Methods in C# are used to define a template for other classes. They provide a way to enforce that certain methods are implemented by derived classes while allowing the base class to provide common functionality.
 - **Abstract Classes** - An abstract class is a class that cannot be instantiated on its own and is intended to be a base class for other classes. It can contain both abstract methods (methods without implementation) and concrete methods (methods with implementation).
 - **Abstract Methods** - An abstract method is a method that is declared without any implementation. Derived classes must provide an implementation for all abstract methods inherited from the abstract class.
+> Abstract classes provide a template for other classes, enforcing a contract for the derived classes while allowing common functionality to be shared.
 Consider an abstract class Shape and its derived classes Circle and Rectangle.
 ```
 // Abstract Class with Abstract and Concrete Methods:
@@ -677,3 +678,109 @@ public class Program
 }
 ```
 
+### Interfaces in C#
+An interface in C# is a contract that defines a set of methods and properties that a class must implement. Interfaces are used to achieve abstraction and multiple inheritance, providing a way to enforce certain functionalities across different classes without dictating how those functionalities should be implemented. Interfaces cannot contain fields (variables). Interfaces can inherit from other interfaces, allowing the creation of more complex contracts.
+
+```
+public interface IAnimal
+{
+    // Method declaration
+    void MakeSound();
+    
+    // Property declaration
+    string Name { get; set; }
+}
+```
+```
+public class Dog : IAnimal
+{
+    // Implementing the property
+    public string Name { get; set; }
+
+    // Implementing the method
+    public void MakeSound()
+    {
+        Console.WriteLine("Dog barks");
+    }
+}
+
+public class Cat : IAnimal
+{
+    // Implementing the property
+    public string Name { get; set; }
+
+    // Implementing the method
+    public void MakeSound()
+    {
+        Console.WriteLine("Cat meows");
+    }
+}
+```
+```
+public class Program
+{
+    public static void Main()
+    {
+        IAnimal myDog = new Dog() { Name = "Buddy" };
+        IAnimal myCat = new Cat() { Name = "Whiskers" };
+
+        Console.WriteLine($"{myDog.Name}:");
+        myDog.MakeSound();  // Output: Buddy: Dog barks
+
+        Console.WriteLine($"{myCat.Name}:");
+        myCat.MakeSound();  // Output: Whiskers: Cat meows
+    }
+}
+```
+#### Operator Overloading in C#
+Operator Overloading allows you to redefine or "overload" the built-in operators for user-defined types. This means you can specify how operators like +, -, *, /, and others behave when applied to instances of your classes or structs. The return type can be of any type but is typically the same as the type of the operands. The parameters must include at least one operand of the type that defines the operator.
+```
+public class Complex
+{
+    public double Real { get; set; }
+    public double Imaginary { get; set; }
+
+    public Complex(double real, double imaginary)
+    {
+        Real = real;
+        Imaginary = imaginary;
+    }
+
+    // Overloading the + operator
+    public static Complex operator +(Complex c1, Complex c2)
+    {
+        return new Complex(c1.Real + c2.Real, c1.Imaginary + c2.Imaginary);
+    }
+
+    // Overloading the - operator
+    public static Complex operator -(Complex c1, Complex c2)
+    {
+        return new Complex(c1.Real - c2.Real, c1.Imaginary - c2.Imaginary);
+    }
+
+    // Overriding ToString() for easy display
+    public override string ToString()
+    {
+        return $"{Real} + {Imaginary}i";
+    }
+}
+```
+```
+public class Program
+{
+    public static void Main()
+    {
+        Complex c1 = new Complex(2.0, 3.0);
+        Complex c2 = new Complex(1.5, 2.5);
+
+        Complex sum = c1 + c2;
+        Complex difference = c1 - c2;
+
+        Console.WriteLine("c1: " + c1);          // Output: c1: 2 + 3i
+        Console.WriteLine("c2: " + c2);          // Output: c2: 1.5 + 2.5i
+        Console.WriteLine("Sum: " + sum);        // Output: Sum: 3.5 + 5.5i
+        Console.WriteLine("Difference: " + difference);  // Output: Difference: 0.5 + 0.5i
+    }
+}
+```
+> **Readonly** fields in C# are fields that can be assigned a value only during their declaration or in a constructor. Once assigned, their values cannot be changed. This ensures that the value of the field remains constant after object construction, providing a form of immutability.
