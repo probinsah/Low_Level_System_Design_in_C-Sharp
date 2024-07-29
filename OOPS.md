@@ -783,4 +783,106 @@ public class Program
     }
 }
 ```
-> **Readonly** fields in C# are fields that can be assigned a value only during their declaration or in a constructor. Once assigned, their values cannot be changed. This ensures that the value of the field remains constant after object construction, providing a form of immutability.
+> **Readonly** fields in C# are fields that can be assigned a value only during their declaration or in a constructor. Once assigned, their values cannot be changed. This ensures that the value of the field remains constant after object construction, providing a form of immutability. Readonly fields are useful when you need to create constants whose values can only be known at runtime.
+```
+public class Person
+{
+    // Readonly field
+    public readonly string Name;
+
+    // Readonly field initialized at the point of declaration
+    public readonly int BirthYear = 2000;
+
+    // Constructor
+    public Person(string name, int birthYear)
+    {
+        Name = name;
+        BirthYear = birthYear;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, BirthYear: {BirthYear}");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Person person1 = new Person("Alice", 1985);
+        person1.DisplayInfo();  // Output: Name: Alice, BirthYear: 1985
+
+        Person person2 = new Person("Bob", 1990);
+        person2.DisplayInfo();  // Output: Name: Bob, BirthYear: 1990
+
+        // Attempting to modify readonly fields will result in a compile-time error
+        // person1.Name = "Charlie";  // Error: Cannot assign to 'Name' because it is a readonly field
+        // person2.BirthYear = 1995;  // Error: Cannot assign to 'BirthYear' because it is a readonly field
+    }
+}
+```
+**When to Use Abstract Classes and Interfaces?**
+- **Answer-**
+- **Abstract Classes:** Use when you want to provide some common base functionality or when creating a base class with some default behavior.
+- **Interfaces:** Use when you need to define a contract that multiple classes can implement, especially when those classes are not related by a common base class.
+
+#### Generic in C#
+Generics in C# allow you to define classes, methods, and interfaces with a placeholder for the type of data they store or use. This enables type-safe data structures and methods without sacrificing performance or code clarity. Generics provide compile-time type checking, which helps catch type errors early. By using generics, you can write a class or method that works with any data type. Generics avoid the overhead of boxing and unboxing when working with value types, leading to better performance. 
+
+```
+public class GenericList<T>
+{
+    private List<T> items = new List<T>();
+
+    public void Add(T item)
+    {
+        items.Add(item);
+    }
+
+    public T Get(int index)
+    {
+        return items[index];
+    }
+
+    public void DisplayAll()
+    {
+        foreach (T item in items)
+        {
+            Console.WriteLine(item);
+        }
+    }
+}
+```
+```
+public class Program
+{
+    public static void Main()
+    {
+        // Creating a list of integers
+        GenericList<int> intList = new GenericList<int>();
+        intList.Add(1);
+        intList.Add(2);
+        intList.Add(3);
+        intList.DisplayAll();  // Output: 1 2 3
+
+        // Creating a list of strings
+        GenericList<string> stringList = new GenericList<string>();
+        stringList.Add("Hello");
+        stringList.Add("World");
+        stringList.DisplayAll();  // Output: Hello World
+    }
+}
+```
+> **Boxing-** When a value type is boxed, it is wrapped inside a System.Object and stored on the heap instead of the stack. This allows the value type to be used as an object.
+> **Unboxing-** Unboxing extracts the value type from the object. This requires an explicit cast.
+```
+int num = 123;        // Value type
+object obj = num;     // Boxing
+
+int unboxedNum = (int)obj;  // Unboxing
+```
+*Avoid excessive boxing and unboxing to minimize memory usage and improve performance. Use generics to maintain type safety and avoid these conversions.*
+
+#### Delegates in C#
+Delegates are type-safe function pointers in C#. They allow methods to be passed as parameters and can be used to define callback methods. Delegates are especially useful for implementing events and the observer pattern. Delegates are type-safe, meaning the method signature must match the delegate's signature. Delegates can point to multiple methods, allowing for invocation of multiple methods through a single delegate.
